@@ -161,7 +161,7 @@ export default function App() {
             <h1 className="text-4xl font-black mb-12 italic">
               Zenin<span className="text-red-600">.cc</span>
             </h1>
-            <div className="flex flex-col gap-4 w-full items-center">
+            <div className="flex flex-col gap-6 w-full items-center">
               <button
                 onClick={async () => {
                   if (isInstalled) {
@@ -183,7 +183,7 @@ export default function App() {
                     setScreen('INSTALLATION');
                   }
                 }}
-                className="group relative flex items-center justify-center gap-3 bg-white text-black font-black text-xl px-12 py-4 rounded-full hover:bg-red-600 hover:text-white transition-all shadow-[0_0_20px_rgba(255,255,255,0.1)] w-full max-w-[280px]"
+                className="group relative flex items-center justify-center gap-3 bg-white text-black font-black text-xl px-12 py-4 rounded-full hover:bg-red-600 hover:text-white transition-all shadow-[0_0_30px_rgba(255,255,255,0.1)] w-full max-w-[300px] active:scale-95"
               >
                 <Play className="w-6 h-6 fill-current" />
                 START GAME
@@ -191,9 +191,9 @@ export default function App() {
               
               <button
                 onClick={() => setShowFeatures(true)}
-                className="group relative flex items-center justify-center gap-3 bg-white text-black font-black text-xl px-12 py-4 rounded-full hover:bg-red-600 hover:text-white transition-all shadow-[0_0_20px_rgba(255,255,255,0.1)] w-full max-w-[280px]"
+                className="group relative flex items-center justify-center gap-3 bg-transparent border-2 border-white/10 text-white/60 font-bold text-lg px-12 py-3 rounded-full hover:border-red-600 hover:text-white transition-all w-full max-w-[260px] active:scale-95"
               >
-                <Lightbulb className="w-6 h-6 fill-current" />
+                <Lightbulb className="w-5 h-5" />
                 ФУНКЦИОНАЛ
               </button>
             </div>
@@ -206,31 +206,49 @@ export default function App() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+              className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-md"
             >
               <motion.div
-                initial={{ scale: 0.9, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.9, opacity: 0 }}
-                className="relative w-full max-w-md bg-[#151515] border border-white/10 p-8 rounded-2xl shadow-2xl"
+                initial={{ y: 50, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: 50, opacity: 0 }}
+                className="relative w-full max-w-md bg-[#0f0f0f] border border-red-600/30 p-8 rounded-3xl shadow-[0_0_50px_rgba(220,38,38,0.15)] overflow-hidden"
               >
+                {/* Decorative background element */}
+                <div className="absolute top-0 right-0 w-32 h-32 bg-red-600/5 blur-3xl rounded-full -mr-16 -mt-16" />
+                
                 <button
                   onClick={() => setShowFeatures(false)}
-                  className="absolute top-4 right-4 p-2 opacity-50 hover:opacity-100 transition-opacity"
+                  className="absolute top-6 right-6 p-2 bg-white/5 rounded-full hover:bg-red-600 hover:text-white transition-all"
                 >
-                  <X className="w-5 h-5" />
+                  <X className="w-4 h-4" />
                 </button>
                 
-                <h3 className="text-xl font-bold mb-6 text-red-500 uppercase tracking-wider">Функционал</h3>
-                
-                <div className="space-y-4 text-sm leading-relaxed text-white/80">
-                  <p>Тут вы можете ознакомиться с функционалом:</p>
-                  <div className="pl-4 border-l-2 border-red-600/30">
-                    <p className="font-bold text-white">1. Chams</p>
+                <div className="flex items-center gap-3 mb-8">
+                  <div className="w-10 h-10 bg-red-600/20 rounded-xl flex items-center justify-center">
+                    <Lightbulb className="w-5 h-5 text-red-500" />
                   </div>
-                  <p className="text-xs opacity-60 italic pt-4">
-                    С каждым обновлением будет добавляться функционал, но учтите, это просто бета релиз, в скорем времени он будет закрыт
-                  </p>
+                  <h3 className="text-2xl font-black uppercase tracking-tighter">Функционал</h3>
+                </div>
+                
+                <div className="space-y-6">
+                  <div className="space-y-3">
+                    <p className="text-white/40 text-[10px] uppercase tracking-[0.2em] font-bold">Доступные модули</p>
+                    <div className="bg-white/5 border border-white/5 p-4 rounded-2xl flex items-center justify-between group hover:border-red-600/50 transition-colors">
+                      <span className="font-bold text-lg">Chams</span>
+                      <span className="text-[10px] bg-red-600/20 text-red-400 px-2 py-1 rounded-md font-black uppercase">Active</span>
+                    </div>
+                  </div>
+
+                  <div className="pt-4 border-t border-white/5">
+                    <p className="text-sm leading-relaxed text-white/60 italic">
+                      С каждым обновлением будет добавляться функционал, но учтите, это просто бета релиз, в скорем времени он будет закрыт.
+                    </p>
+                  </div>
+                  
+                  <div className="pt-4 flex justify-center">
+                    <p className="text-[10px] opacity-20 tracking-[0.4em] uppercase font-black">Zenin.cc Beta</p>
+                  </div>
                 </div>
               </motion.div>
             </motion.div>
