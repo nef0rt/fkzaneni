@@ -5,7 +5,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Lock, Play, CheckCircle2, AlertTriangle, Info, X } from 'lucide-react';
+import { Lock, Play, CheckCircle2, AlertTriangle } from 'lucide-react';
 
 type Screen = 'KEY_SYSTEM' | 'MAIN' | 'INSTALLATION' | 'SUCCESS' | 'ALREADY_INSTALLED' | 'FAILURE';
 
@@ -16,11 +16,18 @@ export default function App() {
   const [progress, setProgress] = useState(0);
   const [isInstalled, setIsInstalled] = useState(false);
   const [failureMessage, setFailureMessage] = useState('');
-  const [showUpdatesModal, setShowUpdatesModal] = useState(false);
+  const [showWelcomeToast, setShowWelcomeToast] = useState(true);
   
   // Random duration between 5 and 10 minutes (in milliseconds)
   const durationRef = useRef(Math.floor(Math.random() * (10 * 60 * 1000 - 5 * 60 * 1000 + 1)) + 5 * 60 * 1000);
   const startTimeRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowWelcomeToast(false);
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     // Auto-login check
@@ -189,14 +196,6 @@ export default function App() {
                 <Play className="w-6 h-6 fill-current" />
                 START GAME
               </button>
-
-              <button
-                onClick={() => setShowUpdatesModal(true)}
-                className="group relative flex items-center justify-center gap-3 bg-white/5 border border-white/10 text-white/40 font-black text-lg px-12 py-4 rounded-full hover:bg-white/10 hover:text-white transition-all w-full max-w-[300px] active:scale-95"
-              >
-                <Info className="w-5 h-5" />
-                ОБНОВЛЕНИЯ
-              </button>
             </div>
           </motion.div>
         )}
@@ -326,68 +325,20 @@ export default function App() {
         <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-red-500/50 to-transparent" />
       </div>
 
-      {/* Updates Modal - Moved outside main AnimatePresence to avoid layout issues */}
+      {/* Welcome Toast */}
       <AnimatePresence>
-        {showUpdatesModal && (
+        {showWelcomeToast && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/95 backdrop-blur-xl"
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            className="fixed bottom-12 left-1/2 -translate-x-1/2 z-[200]"
           >
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0, y: 30 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.9, opacity: 0, y: 30 }}
-              transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="relative w-full max-w-sm bg-[#0f0f0f] border border-white/10 p-10 rounded-[2.5rem] shadow-[0_0_50px_rgba(0,0,0,0.8)]"
-            >
-              <button
-                onClick={() => setShowUpdatesModal(false)}
-                className="absolute top-6 right-6 p-2 bg-white/5 rounded-full hover:bg-white/10 transition-all active:scale-90"
-              >
-                <X className="w-4 h-4 text-white/50" />
-              </button>
-
-              <div className="space-y-8">
-                <div className="space-y-2">
-                  <h3 className="text-3xl font-black italic tracking-tight">
-                    Обновление <span className="text-red-600">1.0.0</span>
-                  </h3>
-                  <div className="h-1 w-16 bg-red-600 rounded-full" />
-                </div>
-
-                <div className="space-y-5">
-                  <p className="text-sm font-bold text-white/90 uppercase tracking-widest">Что добавили?</p>
-                  <ul className="space-y-3 text-sm text-white/50 font-medium">
-                    <li className="flex items-center gap-3">
-                      <div className="w-1.5 h-1.5 bg-red-600 rounded-full" /> чамсы
-                    </li>
-                    <li className="flex items-center gap-3">
-                      <div className="w-1.5 h-1.5 bg-red-600 rounded-full" /> Интерфейс
-                    </li>
-                    <li className="flex items-center gap-3">
-                      <div className="w-1.5 h-1.5 bg-red-600 rounded-full" /> сохранение данных
-                    </li>
-                    <li className="flex items-center gap-3">
-                      <div className="w-1.5 h-1.5 bg-red-600 rounded-full" /> отображение
-                    </li>
-                    <li className="flex items-center gap-3">
-                      <div className="w-1.5 h-1.5 bg-red-600 rounded-full" /> ключ система
-                    </li>
-                    <li className="flex items-center gap-3">
-                      <div className="w-1.5 h-1.5 bg-red-600 rounded-full" /> и еще чото
-                    </li>
-                  </ul>
-                </div>
-
-                <div className="pt-8 border-t border-white/5">
-                  <p className="text-[11px] leading-relaxed text-white/30 italic font-medium">
-                    Это бета релиз, максимум куда мы дойдем, до 1.0.5, так что не думайте что это будет бесконечносто, максимум будет длится 2 недели
-                  </p>
-                </div>
-              </div>
-            </motion.div>
+            <div className="bg-white/5 border border-white/10 backdrop-blur-md px-6 py-2 rounded-full shadow-2xl">
+              <p className="text-[10px] uppercase tracking-[0.4em] font-black text-white/40 italic">
+                by <span className="text-red-600/60">zenin.cc</span>
+              </p>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
