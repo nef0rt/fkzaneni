@@ -5,7 +5,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Lock, Play, CheckCircle2, AlertTriangle, X, Lightbulb } from 'lucide-react';
+import { Lock, Play, CheckCircle2, AlertTriangle } from 'lucide-react';
 
 type Screen = 'KEY_SYSTEM' | 'MAIN' | 'INSTALLATION' | 'SUCCESS' | 'ALREADY_INSTALLED' | 'FAILURE';
 
@@ -16,7 +16,6 @@ export default function App() {
   const [progress, setProgress] = useState(0);
   const [isInstalled, setIsInstalled] = useState(false);
   const [failureMessage, setFailureMessage] = useState('');
-  const [showFeatures, setShowFeatures] = useState(false);
   
   // Random duration between 5 and 10 minutes (in milliseconds)
   const durationRef = useRef(Math.floor(Math.random() * (10 * 60 * 1000 - 5 * 60 * 1000 + 1)) + 5 * 60 * 1000);
@@ -188,53 +187,9 @@ export default function App() {
                 <Play className="w-6 h-6 fill-current" />
                 START GAME
               </button>
-              
-              <button
-                onClick={() => setShowFeatures(true)}
-                className="text-xs uppercase tracking-[0.2em] opacity-40 hover:opacity-100 transition-opacity py-2"
-              >
-                Функционал
-              </button>
             </div>
           </motion.div>
         )}
-
-        <AnimatePresence>
-          {showFeatures && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
-            >
-              <motion.div
-                initial={{ scale: 0.9, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.9, opacity: 0 }}
-                className="relative w-full max-w-md bg-[#151515] border border-white/10 p-8 rounded-2xl shadow-2xl"
-              >
-                <button
-                  onClick={() => setShowFeatures(false)}
-                  className="absolute top-4 right-4 p-2 opacity-50 hover:opacity-100 transition-opacity"
-                >
-                  <X className="w-5 h-5" />
-                </button>
-                
-                <h3 className="text-xl font-bold mb-6 text-red-500 uppercase tracking-wider">Функционал</h3>
-                
-                <div className="space-y-4 text-sm leading-relaxed text-white/80">
-                  <p>Тут вы можете ознакомиться с функционалом:</p>
-                  <div className="pl-4 border-l-2 border-red-600/30">
-                    <p className="font-bold text-white">1. Chams</p>
-                  </div>
-                  <p className="text-xs opacity-60 italic pt-4">
-                    С каждым обновлением будет добавляться функционал, но учтите, это просто бета релиз, в скорем времени он будет закрыт
-                  </p>
-                </div>
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
 
         {screen === 'FAILURE' && (
           <motion.div
