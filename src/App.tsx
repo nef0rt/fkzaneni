@@ -183,7 +183,7 @@ export default function App() {
                     setScreen('INSTALLATION');
                   }
                 }}
-                className="group relative flex items-center justify-center gap-3 bg-white text-black font-black text-xl px-12 py-4 rounded-full hover:bg-red-600 hover:text-white transition-all shadow-[0_0_20px_rgba(255,255,255,0.1)] w-full max-w-[280px]"
+                className="group relative flex items-center justify-center gap-3 bg-white text-black font-black text-xl px-12 py-4 rounded-full hover:bg-red-600 hover:text-white transition-all shadow-[0_0_20px_rgba(255,255,255,0.1)]"
               >
                 <Play className="w-6 h-6 fill-current" />
                 START GAME
@@ -191,7 +191,7 @@ export default function App() {
               
               <button
                 onClick={() => setShowFeatures(true)}
-                className="text-xs uppercase tracking-[0.2em] border border-white/20 bg-white/5 px-10 py-3 rounded-full hover:bg-white hover:text-black transition-all opacity-90 hover:opacity-100"
+                className="text-xs uppercase tracking-[0.2em] opacity-40 hover:opacity-100 transition-opacity py-2"
               >
                 Функционал
               </button>
