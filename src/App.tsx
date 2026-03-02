@@ -164,38 +164,67 @@ export default function App() {
 
             <button
               onClick={() => setShowUpdates(!showUpdates)}
-              className="fixed top-6 right-6 p-3 bg-white/5 rounded-full hover:bg-white/10 transition-all z-50"
+              className="fixed top-8 right-8 p-4 bg-white/5 border border-white/10 rounded-full hover:bg-red-600/20 hover:border-red-600/50 transition-all z-[60] group shadow-lg backdrop-blur-md"
             >
-              <Info className="w-6 h-6 opacity-50" />
+              <Info className="w-7 h-7 text-white/40 group-hover:text-red-500 transition-colors" />
             </button>
 
             <AnimatePresence>
               {showUpdates && (
-                <motion.div
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 20 }}
-                  className="fixed top-20 right-6 w-64 bg-[#151515] border border-white/10 p-6 rounded-2xl shadow-2xl z-50"
-                >
-                  <div className="flex justify-between items-center mb-4">
-                    <h3 className="text-sm font-black uppercase tracking-widest text-red-500">Обновления</h3>
-                    <button onClick={() => setShowUpdates(false)}>
-                      <X className="w-4 h-4 opacity-30 hover:opacity-100" />
-                    </button>
-                  </div>
-                  <div className="space-y-4">
-                    <div>
-                      <p className="text-xs font-bold text-white mb-2">Обновление 1.0.0 (начальное)</p>
-                      <ul className="text-[10px] space-y-1 text-white/40">
-                        <li>+интерфейс</li>
-                        <li>+инжектор</li>
-                        <li>+загрузка</li>
-                        <li>+и еще чето</li>
-                        <li>+чамсы</li>
-                      </ul>
+                <>
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    onClick={() => setShowUpdates(false)}
+                    className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[55]"
+                  />
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.9, x: 20, y: -20 }}
+                    animate={{ opacity: 1, scale: 1, x: 0, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.9, x: 20, y: -20 }}
+                    transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                    className="fixed top-24 right-8 w-80 bg-[#121212]/90 border border-white/10 p-8 rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.5)] z-[60] backdrop-blur-xl"
+                  >
+                    <div className="flex justify-between items-center mb-6">
+                      <div className="flex items-center gap-2">
+                        <div className="w-2 h-2 bg-red-600 rounded-full animate-pulse" />
+                        <h3 className="text-sm font-black uppercase tracking-[0.3em] text-white">Changelog</h3>
+                      </div>
+                      <button 
+                        onClick={() => setShowUpdates(false)}
+                        className="p-2 hover:bg-white/5 rounded-full transition-colors"
+                      >
+                        <X className="w-5 h-5 opacity-30 hover:opacity-100" />
+                      </button>
                     </div>
-                  </div>
-                </motion.div>
+                    
+                    <div className="space-y-6">
+                      <div className="relative pl-6 border-l border-red-600/30">
+                        <div className="absolute -left-[5px] top-0 w-[9px] h-[9px] bg-red-600 rounded-full shadow-[0_0_10px_#dc2626]" />
+                        <p className="text-xs font-black text-white mb-3 tracking-tight">Version 1.0.0 <span className="text-red-600/50 font-medium ml-2">Initial Release</span></p>
+                        <ul className="space-y-2">
+                          {[
+                            'Новый футуристичный интерфейс',
+                            'Инжектор последнего поколения',
+                            'Оптимизированная загрузка модулей',
+                            'Система анти-спама (Rate Limit)',
+                            'Визуальные модули (Chams)'
+                          ].map((item, i) => (
+                            <li key={i} className="flex items-center gap-2 text-[11px] text-white/40">
+                              <span className="text-red-600 font-bold">+</span>
+                              {item}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+
+                    <div className="mt-8 pt-6 border-t border-white/5 flex justify-center">
+                      <p className="text-[9px] uppercase tracking-[0.5em] font-black opacity-20">Zenin.cc System</p>
+                    </div>
+                  </motion.div>
+                </>
               )}
             </AnimatePresence>
 
