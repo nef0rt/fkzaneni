@@ -5,7 +5,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Lock, Play, CheckCircle2, AlertTriangle } from 'lucide-react';
+import { Lock, Play, CheckCircle2, AlertTriangle, Info, X } from 'lucide-react';
 
 type Screen = 'KEY_SYSTEM' | 'MAIN' | 'INSTALLATION' | 'SUCCESS' | 'ALREADY_INSTALLED' | 'FAILURE';
 
@@ -16,6 +16,7 @@ export default function App() {
   const [progress, setProgress] = useState(0);
   const [isInstalled, setIsInstalled] = useState(false);
   const [failureMessage, setFailureMessage] = useState('');
+  const [showUpdates, setShowUpdates] = useState(false);
   
   // Random duration between 5 and 10 minutes (in milliseconds)
   const durationRef = useRef(Math.floor(Math.random() * (10 * 60 * 1000 - 5 * 60 * 1000 + 1)) + 5 * 60 * 1000);
@@ -160,6 +161,44 @@ export default function App() {
             <h1 className="text-4xl font-black mb-12 italic">
               Zenin<span className="text-red-600">.cc</span>
             </h1>
+
+            <button
+              onClick={() => setShowUpdates(!showUpdates)}
+              className="fixed top-6 right-6 p-3 bg-white/5 rounded-full hover:bg-white/10 transition-all z-50"
+            >
+              <Info className="w-6 h-6 opacity-50" />
+            </button>
+
+            <AnimatePresence>
+              {showUpdates && (
+                <motion.div
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 20 }}
+                  className="fixed top-20 right-6 w-64 bg-[#151515] border border-white/10 p-6 rounded-2xl shadow-2xl z-50"
+                >
+                  <div className="flex justify-between items-center mb-4">
+                    <h3 className="text-sm font-black uppercase tracking-widest text-red-500">Обновления</h3>
+                    <button onClick={() => setShowUpdates(false)}>
+                      <X className="w-4 h-4 opacity-30 hover:opacity-100" />
+                    </button>
+                  </div>
+                  <div className="space-y-4">
+                    <div>
+                      <p className="text-xs font-bold text-white mb-2">Обновление 1.0.0 (начальное)</p>
+                      <ul className="text-[10px] space-y-1 text-white/40">
+                        <li>+интерфейс</li>
+                        <li>+инжектор</li>
+                        <li>+загрузка</li>
+                        <li>+и еще чето</li>
+                        <li>+чамсы</li>
+                      </ul>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
             <div className="flex flex-col gap-4 w-full items-center">
               <button
                 onClick={async () => {
