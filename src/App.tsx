@@ -5,9 +5,9 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Lock, Play, CheckCircle2, AlertTriangle, Info } from 'lucide-react';
+import { Lock, Play, CheckCircle2, AlertTriangle, Info, X } from 'lucide-react';
 
-type Screen = 'KEY_SYSTEM' | 'MAIN' | 'INSTALLATION' | 'SUCCESS' | 'ALREADY_INSTALLED' | 'FAILURE' | 'UPDATES';
+type Screen = 'KEY_SYSTEM' | 'MAIN' | 'INSTALLATION' | 'SUCCESS' | 'ALREADY_INSTALLED' | 'FAILURE';
 
 export default function App() {
   const [screen, setScreen] = useState<Screen>('KEY_SYSTEM');
@@ -16,6 +16,7 @@ export default function App() {
   const [progress, setProgress] = useState(0);
   const [isInstalled, setIsInstalled] = useState(false);
   const [failureMessage, setFailureMessage] = useState('');
+  const [showUpdatesModal, setShowUpdatesModal] = useState(false);
   
   // Random duration between 5 and 10 minutes (in milliseconds)
   const durationRef = useRef(Math.floor(Math.random() * (10 * 60 * 1000 - 5 * 60 * 1000 + 1)) + 5 * 60 * 1000);
@@ -183,22 +184,86 @@ export default function App() {
                     setScreen('INSTALLATION');
                   }
                 }}
-                className="group relative flex items-center justify-center gap-3 bg-white text-black font-black text-xl px-12 py-4 rounded-full hover:bg-red-600 hover:text-white transition-all shadow-[0_0_20px_rgba(255,255,255,0.1)]"
+                className="group relative flex items-center justify-center gap-3 bg-white text-black font-black text-xl px-12 py-4 rounded-full hover:bg-red-600 hover:text-white transition-all shadow-[0_0_20px_rgba(255,255,255,0.1)] w-full max-w-[320px]"
               >
                 <Play className="w-6 h-6 fill-current" />
                 START GAME
               </button>
 
               <button
-                onClick={() => setScreen('UPDATES')}
-                className="text-xs uppercase tracking-[0.2em] opacity-40 hover:opacity-100 transition-opacity py-2 flex items-center gap-2"
+                onClick={() => setShowUpdatesModal(true)}
+                className="group relative flex items-center justify-center gap-3 bg-white/5 border border-white/10 text-white/60 font-black text-xl px-12 py-4 rounded-full hover:bg-white/10 hover:text-white transition-all w-full max-w-[320px] scale-[0.95]"
               >
-                <Info className="w-3 h-3" />
-                Обновления
+                <Info className="w-6 h-6" />
+                ОБНОВЛЕНИЯ
               </button>
             </div>
           </motion.div>
         )}
+
+        <AnimatePresence>
+          {showUpdatesModal && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/90 backdrop-blur-md"
+            >
+              <motion.div
+                initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                animate={{ scale: 1, opacity: 1, y: 0 }}
+                exit={{ scale: 0.9, opacity: 0, y: 20 }}
+                className="relative w-full max-w-md bg-[#121212] border border-white/10 p-8 rounded-[2.5rem] shadow-2xl overflow-hidden"
+              >
+                <button
+                  onClick={() => setShowUpdatesModal(false)}
+                  className="absolute top-6 right-6 p-2 bg-white/5 rounded-full hover:bg-white/10 transition-all"
+                >
+                  <X className="w-5 h-5 opacity-50" />
+                </button>
+
+                <div className="space-y-6">
+                  <div className="space-y-1">
+                    <h3 className="text-2xl font-black italic tracking-tight">
+                      Обновление <span className="text-red-600">1.0.0</span>
+                    </h3>
+                    <div className="h-1 w-12 bg-red-600 rounded-full" />
+                  </div>
+
+                  <div className="space-y-4">
+                    <p className="text-sm font-bold text-white/90">Что добавили?</p>
+                    <ul className="space-y-2 text-sm text-white/40">
+                      <li className="flex items-center gap-2">
+                        <span className="text-red-600 font-bold">+</span> чамсы
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <span className="text-red-600 font-bold">+</span> Интерфейс
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <span className="text-red-600 font-bold">+</span> сохранение данных
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <span className="text-red-600 font-bold">+</span> отображение
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <span className="text-red-600 font-bold">+</span> ключ система
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <span className="text-red-600 font-bold">+</span> и еще чото
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div className="pt-6 border-t border-white/5">
+                    <p className="text-[10px] leading-relaxed text-white/20 italic">
+                      Это бета релиз, максимум куда мы дойдем, до 1.0.5, так что не думайте что это будет бесконечносто, максимум будет длится 2 недели
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {screen === 'FAILURE' && (
           <motion.div
@@ -311,35 +376,6 @@ export default function App() {
             <button
               onClick={() => setScreen('MAIN')}
               className="text-xs uppercase tracking-widest border border-white/10 px-8 py-3 rounded hover:bg-white hover:text-black transition-all"
-            >
-              Back to menu
-            </button>
-          </motion.div>
-        )}
-
-        {screen === 'UPDATES' && (
-          <motion.div
-            key="updates"
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="w-full max-w-md text-center space-y-6"
-          >
-            <div className="flex justify-center">
-              <Info className="w-20 h-20 text-red-500" />
-            </div>
-            <div className="space-y-4">
-              <h2 className="text-3xl font-black tracking-tight uppercase">Обновление 1.0.0</h2>
-              <div className="text-white/60 text-sm space-y-2">
-                <p>+интерфейс</p>
-                <p>+инжектор</p>
-                <p>+загрузка</p>
-                <p>+и еще чето</p>
-                <p>+чамсы</p>
-              </div>
-            </div>
-            <button
-              onClick={() => setScreen('MAIN')}
-              className="text-xs uppercase tracking-widest border border-white/10 px-8 py-3 rounded hover:bg-white hover:text-black transition-all mt-8"
             >
               Back to menu
             </button>
