@@ -191,7 +191,7 @@ export default function App() {
               
               <button
                 onClick={() => setShowFeatures(true)}
-                className="text-xs uppercase tracking-[0.2em] opacity-40 hover:opacity-100 transition-opacity py-2"
+                className="text-xs uppercase tracking-[0.2em] border border-white/20 bg-white/5 px-10 py-3 rounded-full hover:bg-white hover:text-black transition-all opacity-90 hover:opacity-100"
               >
                 Функционал
               </button>
